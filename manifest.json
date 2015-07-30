@@ -15,11 +15,11 @@
     }
   ],
 
-  "page_action": {
-    "default_icon": "imgs/icon.png"
-  },
+  "page_action": {},
 
   "permissions": [
     "activeTab"
-  ]
+  ],
+
+  "web_accessible_resources": ["checker.js"]
 }
