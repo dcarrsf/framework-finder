@@ -3,12 +3,7 @@
 
   "name": "Unmask Plugin",
   "description": "This extension analyzes front-end technologies used on the page.",
-  "version": "0.0",
-
-  // "background": {
-  //   "persistent": false,
-  //   "scripts": ["background.js"]
-  // },
+  "version": "1.0",
 
   "content_scripts": [
     {
