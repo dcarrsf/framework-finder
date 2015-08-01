@@ -13,7 +13,8 @@ var angularAttrs = [
   '[ng-bind]',
   '[ng-href]',
   '[ng-view]',
-  '[ui-view]'
+  '[ui-view]',
+  '[ui-sref]'
 ]
 
 scanDOM();

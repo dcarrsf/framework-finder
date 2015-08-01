@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
 
-  "name": "Unmask Plugin",
+  "name": "Detectinator",
   "description": "This extension analyzes front-end technologies used on the page.",
   "version": "1.0",
   "background": {
