@@ -19,7 +19,5 @@
 
   "permissions": [
     "activeTab"
-  ],
-
-  "web_accessible_resources": ["checker.js"]
+  ]
 }
