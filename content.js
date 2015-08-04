@@ -24,14 +24,27 @@ window.addEventListener('load', scanDOM, false);
 
 function scanDOM() {
   var page = document.body.innerHTML;
-  if (angular()) {
+  if (isAngular()) {
     chrome.runtime.sendMessage({ found: 'angular' });
-  } else if (!!document.querySelector('[data-reactid]')) {
+  } else if (isReact()) {
     chrome.runtime.sendMessage({ found: 'react' });
   }
 }
 
-function angular() {
+function isReact() {
+  var unfilteredReactComponents = document.querySelectorAll('[data-reactid]');
+  var filteredReactComponents = [];
+  for (var i = 0; i < unfilteredReactComponents.length; i++) {
+
+    // remove chrome extensions that cause edge cases 
+    if (unfilteredReactComponents[i].parentNode.id !== 'treev-ext-react-app') {
+      filteredReactComponents.push(unfilteredReactComponents[i]);
+    }
+  }
+  return Boolean(filteredReactComponents.length);
+}
+
+function isAngular() {
   return angularAttrs.reduce(function(bool, attr) {
     return bool || !!document.querySelector(attr);
   }, false);
