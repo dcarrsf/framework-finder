@@ -1,6 +1,3 @@
-// var angular = /ng-app|ng-controller|ng-click|ng-scope|ng-if|ng-show|ng-hide|ng-submit|ng-model|ng-repeat|ng-class|ng-bind|ng-href|ui-view/;
-// var react = /data-reactid/;
-
 var angularAttrs = [
   '[ng-app]',
   '[ng-controller]',
@@ -16,7 +13,8 @@ var angularAttrs = [
   '[ng-bind]',
   '[ng-href]',
   '[ng-view]',
-  '[ui-view]'
+  '[ui-view]',
+  '[ui-sref]'
 ]
 
 scanDOM();
@@ -28,6 +26,8 @@ function scanDOM() {
     chrome.runtime.sendMessage({ found: 'angular' });
   } else if (!!document.querySelector('[data-reactid]')) {
     chrome.runtime.sendMessage({ found: 'react' });
+  } else if (!!document.querySelector('script[type$=handlebars-template')) {
+    chrome.runtime.sendMessage({ found: 'handlebars' });
   }
 }
 
