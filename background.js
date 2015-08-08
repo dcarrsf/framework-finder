@@ -1,10 +1,13 @@
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 
-  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-    chrome.pageAction.show(tabs[0].id);
+    chrome.pageAction.show(sender.tab.id);
     chrome.pageAction.setIcon({
-      tabId: tabs[0].id,
+      tabId: sender.tab.id,
       path: 'imgs/'+message.found+'.png'
     }, function() { console.log('detecting ' + message.found) });
-  });
+
+});
+
+chrome.pageAction.onClicked.addListener(function(tab){
+
 });

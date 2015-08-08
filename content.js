@@ -19,23 +19,25 @@ var angularAttrs = [
 
 var found = [];
 
+//call function and add event listener in case DOM isn't loaded yet
 scanDOM();
 window.addEventListener('load', scanDOM, false);
 
 function scanDOM() {
-  var page = document.body.innerHTML;
-  if (hasAngular()) {
-    chrome.runtime.sendMessage({ found: 'angular' });
-  } else if (hasReact()) {
-    chrome.runtime.sendMessage({ found: 'react' });
-  } else if (hasRails()) {
-    chrome.runtime.sendMessage({ found: 'rails' });
-  } else if (hasDjango()) {
-    chrome.runtime.sendMessage({ found: 'django' });
-  } else if (hasHandlebars()) {
-    chrome.runtime.sendMessage({ found: 'handlebars' });
-  }
+  hasAngular() && found.push('angular');
+  hasReact() && found.push('react');
+  hasRails() && found.push('rails');
+  hasDjango() && found.push('django');
+  hasHandlebars() && found.push('handlebars');
+  pageAction(0);
+}
 
+//cycle through icons if multiple were foujnd
+function pageAction(i) {
+  if (!found.length) return;
+  chrome.runtime.sendMessage({ found: found[i] });
+  if (++i >= found.length) i = 0;
+  setTimeout(pageAction, 2000, i);
 }
 
 function hasReact() {
@@ -48,7 +50,7 @@ function hasReact() {
       filteredReactComponents.push(unfilteredReactComponents[i]);
     }
   }
-  return Boolean(filteredReactComponents.length);
+  return !!filteredReactComponents.length;
 }
 
 function hasAngular() {
