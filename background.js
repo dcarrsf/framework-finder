@@ -1,13 +1,10 @@
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function(req, sender, res) {
 
-    chrome.pageAction.show(sender.tab.id);
-    chrome.pageAction.setIcon({
-      tabId: sender.tab.id,
-      path: 'imgs/'+message.found+'.png'
-    }, function() { console.log('detecting ' + message.found) });
-
-});
-
-chrome.pageAction.onClicked.addListener(function(tab){
+  console.log('getting massage')
+  chrome.pageAction.show(sender.tab.id);
+  chrome.pageAction.setIcon({
+    tabId: sender.tab.id,
+    path: 'imgs/' + req.found + '.png'
+  });
 
 });

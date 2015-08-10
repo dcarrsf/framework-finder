@@ -15,29 +15,32 @@ var angularAttrs = [
   '[ng-view]',
   '[ui-view]',
   '[ui-sref]'
-]
+];
 
 var found = [];
+function addUniq(arr, val) {
+  if (arr.indexOf(val) === -1) arr.push(val);
+}
 
-//call function and add event listener in case DOM isn't loaded yet
+//call function and add event listener to call function again in case DOM isn't loaded yet
 scanDOM();
 window.addEventListener('load', scanDOM, false);
 
 function scanDOM() {
-  hasAngular() && found.push('angular');
-  hasReact() && found.push('react');
-  hasRails() && found.push('rails');
-  hasDjango() && found.push('django');
-  hasHandlebars() && found.push('handlebars');
+  hasAngular() && addUniq(found, 'angular');
+  hasReact() && addUniq(found, 'react');
+  hasRails() && addUniq(found, 'rails');
+  hasDjango() && addUniq(found, 'django');
+  hasHandlebars() && addUniq(found, 'handlebars');
   pageAction(0);
-}
+};
 
-//cycle through icons if multiple were foujnd
+//cycle through icons if multiple were found
 function pageAction(i) {
   if (!found.length) return;
-  chrome.runtime.sendMessage({ found: found[i] });
-  if (++i >= found.length) i = 0;
-  setTimeout(pageAction, 2000, i);
+  if (found.length === 1) return chrome.runtime.sendMessage({ found: found[0] });
+  chrome.runtime.sendMessage({ found: found[i % found.length] });
+  setTimeout(pageAction, 2000, ++i);
 }
 
 function hasReact() {
@@ -62,17 +65,6 @@ function hasAngular() {
 function hasRails() {
   return !!document.querySelector('meta[name=csrf-token]') &&
          !!document.querySelector('meta[name=csrf-param]');
-  // var styles = document.getElementsByTagName('link');
-  // for (var i = 0; i < styles.length; i++) {
-  //   var href = styles[i].getAttribute('href');
-  //   if (href.match(/assets\/application-[\da-z]{30,}\.css/i)) return true;
-  // }
-
-  // var scripts = document.getElementsByTagName('script');
-  // for (var i = 0; i < scripts.length; i++) {
-  //   var src = scripts[i].getAttribute('src');
-  //   if (src.match(/assets\/application-[\da-z]{30,}\.js/)) return true;
-  // }
 }
 
 function hasDjango() {
@@ -82,3 +74,8 @@ function hasDjango() {
 function hasHandlebars() {
   return !!document.querySelector('script[type$=handlebars-template');
 }
+
+chrome.runtime.onMessage.addListener(function(req, sender, res) {
+  console.log('diddling');
+  if (req.query === 'finds') res({ finds: found });
+});

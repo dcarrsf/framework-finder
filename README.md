@@ -1,8 +1,9 @@
-#Detectify
-Chrome extension that detects front-end technologies.
+#Detectinator
+Chrome extension that detects frameworks used to render the page.
 
-Current detects the following technologies:
+Currently detects the following technologies:
 
-- React
-- Angular
+- ReactJS
+- AngularJS
 - Handlebars
+- Rails
