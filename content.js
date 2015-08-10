@@ -76,6 +76,5 @@ function hasHandlebars() {
 }
 
 chrome.runtime.onMessage.addListener(function(req, sender, res) {
-  console.log('diddling');
   if (req.query === 'finds') res({ finds: found });
 });
